@@ -50,7 +50,11 @@ routerApp.controller('MainCtrl', ['$scope', ($scope) ->
       class: 'success'
     });
 
-  $scope.deleteContact = (ndx) ->
+  $scope.deleteContact = (ndx, name) ->
     if confirm('Proceed deleting this contact?')
       $scope.contacts.splice(ndx, 1);
+      notifier({
+        message: 'Heads up! Contact `'+name+'` successfully deleted!',
+        class: 'success'
+      });
 ]);
