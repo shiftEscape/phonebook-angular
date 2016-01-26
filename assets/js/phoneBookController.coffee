@@ -28,10 +28,13 @@ routerApp.controller('MainCtrl', ['$scope', ($scope) ->
     class: 'info'
   });
 
+  $scope.clearFields = () ->
+    $scope.name = $scope.number = '';
+
   $scope.addContact = () ->
 
     if !$scope.name or !$scope.number
-      $scope.name = $scope.number = '';
+      $scope.clearFields();
       notifier({
         message: 'Oops! Missing contact details. Please complete fields before submitting.',
         class: 'danger'
@@ -47,6 +50,21 @@ routerApp.controller('MainCtrl', ['$scope', ($scope) ->
 
     notifier({
       message: 'Heads up! Contact successfully added!',
+      class: 'success'
+    });
+
+  $scope.editContact = (ndx) ->
+    contact = $scope.contacts[ndx];
+    $scope.id = ndx;
+    $scope.name = contact.name;
+    $scope.number = contact.number;
+
+  $scope.updateContact = () ->
+    id = $scope.id;
+    $scope.contacts[id].name = $scope.name;
+    $scope.contacts[id].number = $scope.number;
+    notifier({
+      message: 'Heads up! Contact successfully updated!',
       class: 'success'
     });
 

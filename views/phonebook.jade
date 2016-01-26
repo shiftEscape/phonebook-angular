@@ -15,7 +15,25 @@
           input.form-control.input-md(type="text", ng-model="number", placeholder="Input contact number here..")
         .modal-footer
           button.btn.btn-default(type='button', data-dismiss='modal') Close
-          button.btn.btn-primary(type='button', data-dismiss='modal', ng-click="addContact()") Save changes
+          button.btn.btn-primary(type='button', data-dismiss='modal', ng-click="addContact()") Save
+
+  #updateContactModal.modal(tabindex='-1', role='dialog')
+    .modal-dialog(role='document')
+      .modal-content
+        .modal-header
+          button.close(type='button', data-dismiss='modal', aria-label='Close')
+            span(aria-hidden='true') &times;
+          h4.modal-title Edit Contact
+        .modal-body
+          label Name:
+          input(type="hidden", ng-model="id")
+          input.form-control.input-md(type="text", ng-model="name", placeholder="Input contact name here..")
+          br
+          label Number:
+          input.form-control.input-md(type="text", ng-model="number", placeholder="Input contact number here..")
+        .modal-footer
+          button.btn.btn-default(type='button', data-dismiss='modal') Close
+          button.btn.btn-primary(type='button', data-dismiss='modal', ng-click="updateContact()") Save changes
 
   .jumbotron
     .text-center
@@ -29,7 +47,7 @@
         a(href='http://getbootstrap.com/', target='_blank') Bootstrap
     hr
     .form-group.text-center
-      button.btn.btn-primary.btn-md(data-toggle='modal', data-target='#addContactModal')
+      button.btn.btn-primary.btn-md(data-toggle='modal', data-target='#addContactModal', ng-click="clearFields()")
         span.glyphicon.glyphicon-plus(aria-hidden="true")
         |&nbsp;Add New Contact
 
@@ -48,7 +66,7 @@
                 td(ng-bind="contact.name")
                 td(ng-bind="contact.number")
                 td.text-center
-                  button.btn.btn-primary.btn-sm(ng-click="editContact($index)")
+                  button.btn.btn-primary.btn-sm(data-toggle='modal', data-target='#updateContactModal', ng-click="editContact($index)")
                     span.glyphicon.glyphicon-pencil
                     |&nbsp;Edit
                   |&nbsp;
