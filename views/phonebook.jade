@@ -15,7 +15,7 @@
           input.form-control.input-md(type="text", ng-model="number", placeholder="Input contact number here..")
         .modal-footer
           button.btn.btn-default(type='button', data-dismiss='modal') Close
-          button.btn.btn-primary(type='button') Save changes
+          button.btn.btn-primary(type='button', data-dismiss='modal', ng-click="addContact()") Save changes
 
   .jumbotron
     .text-center
@@ -33,7 +33,7 @@
 
     .row.text-center
       .col-sm-12
-        .alert(class="alert-{{notification.class}}" ng-bind="'Oops! ' + notification.message")
+        .alert(class="alert-{{notification.class}}" ng-bind="notification.message")
         #contacts-wrapper
           table.table.text-left(ng-show="contacts.length", class="ng-hide")
             thead
