@@ -1,24 +1,24 @@
 'use strict';
 
-routerApp = angular.module('phoneBook', ['ui.router']);
+phoneBookApp = angular.module('phoneBook', ['ui.router'])
 
-routerApp.config( ($stateProvider, $urlRouterProvider) ->
-
-  $urlRouterProvider.otherwise('/');
-
-  $stateProvider
+appConfig = ($s, $u) ->
+  $u.otherwise('/');
+  $s
     .state('index', {
         url: '/',
         templateUrl: '/views/phonebook.html'
     })
 
-);
+phoneBookApp.config(appConfig);
 
-routerApp.controller('MainCtrl', ['$scope', ($scope) ->
-  $scope.contacts = [];
+appConfig.$inject = ['$stateProvider', '$urlRouterProvider'];
+
+MainCtrl = ($s) ->
+  $s.contacts = [];
 
   notifier = (params) ->
-    $scope.notification = {
+    $s.notification = {
       message: params.message,
       class: params.class
     };
@@ -28,51 +28,62 @@ routerApp.controller('MainCtrl', ['$scope', ($scope) ->
     class: 'info'
   });
 
-  $scope.clearFields = () ->
-    $scope.name = $scope.number = '';
+  $s.clearFields = () ->
+    $s.name = $s.number = '';
 
-  $scope.addContact = () ->
+  $s.addContact = () ->
 
-    if !$scope.name or !$scope.number
-      $scope.clearFields();
+    if !$s.name or !$s.number
+      $s.clearFields();
       notifier({
         message: 'Oops! Missing contact details. Please complete fields before submitting.',
         class: 'danger'
       });
       return;
 
-    $scope.contacts.push({
-      name: $scope.name,
-      number: $scope.number
+    $s.contacts.push({
+      name: $s.name,
+      number: $s.number
     });
 
-    $scope.name = $scope.number = '';
+    $s.name = $s.number = '';
 
     notifier({
       message: 'Heads up! Contact successfully added!',
       class: 'success'
     });
 
-  $scope.editContact = (ndx) ->
-    contact = $scope.contacts[ndx];
-    $scope.id = ndx;
-    $scope.name = contact.name;
-    $scope.number = contact.number;
+  $s.editContact = (ndx) ->
+    contactToUpdate = $s.contacts[ndx];
+    $s.id = ndx;
+    $s.name = contactToUpdate.name;
+    $s.number = contactToUpdate.number;
 
-  $scope.updateContact = () ->
-    id = $scope.id;
-    $scope.contacts[id].name = $scope.name;
-    $scope.contacts[id].number = $scope.number;
+  $s.updateContact = () ->
+
+    if !$s.name or !$s.number
+      $s.clearFields();
+      notifier({
+        message: 'Oops! Can\'t update contact. Missing contact details.',
+        class: 'danger'
+      });
+      return;
+
+    contactNdx = $s.id;
+    $s.contacts[contactNdx].name = $s.name;
+    $s.contacts[contactNdx].number = $s.number;
     notifier({
       message: 'Heads up! Contact successfully updated!',
       class: 'success'
     });
 
-  $scope.deleteContact = (ndx, name) ->
+  $s.deleteContact = (ndx, name) ->
     if confirm('Proceed deleting this contact?')
-      $scope.contacts.splice(ndx, 1);
+      $s.contacts.splice(ndx, 1);
       notifier({
         message: 'Heads up! Contact `'+name+'` successfully deleted!',
         class: 'success'
       });
-]);
+
+phoneBookApp.controller('MainCtrl', MainCtrl);
+MainCtrl.$inject = ['$scope'];
