@@ -24,19 +24,29 @@ routerApp.controller('MainCtrl', ['$scope', ($scope) ->
     };
 
   notifier({
-    message: 'No contacts added. Click "Add New Contact" to get started',
+    message: 'Oops! No contacts added. Click "Add New Contact" to get started',
     class: 'info'
   });
 
   $scope.addContact = () ->
 
+    if !$scope.name or !$scope.number
+      $scope.name = $scope.number = '';
+      notifier({
+        message: 'Oops! Missing contact details. Please complete fields before submitting.',
+        class: 'danger'
+      });
+      return;
+
     $scope.contacts.push({
-      name: 'Alvin James',
-      number: '09162863542'
+      name: $scope.name,
+      number: $scope.number
     });
 
+    $scope.name = $scope.number = '';
+
     notifier({
-      message: 'Contact successfully added!',
+      message: 'Heads up! Contact successfully added!',
       class: 'success'
     });
 
