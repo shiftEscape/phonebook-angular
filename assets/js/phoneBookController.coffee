@@ -50,4 +50,7 @@ routerApp.controller('MainCtrl', ['$scope', ($scope) ->
       class: 'success'
     });
 
+  $scope.deleteContact = (ndx) ->
+    if confirm('Proceed deleting this contact?')
+      $scope.contacts.splice(ndx, 1);
 ]);
