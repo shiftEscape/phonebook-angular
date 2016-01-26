@@ -19,13 +19,15 @@
 
   .jumbotron
     .text-center
-      h1(align='center') Phonebook App - AngularJS
+      h1(align='center') Simple Phonebook App
       h3
-        | An&nbsp;
+        | A&nbsp;
+        a(href='https://nodejs.org/en/', target='_blank') NodeJS
+        |&nbsp;+&nbsp;
         a(href='https://angularjs.org/', target='_blank') AngularJS
-        |&nbsp;driven application created with
-        a(href='http://getbootstrap.com/', target='_blank')&nbsp;Bootstrap
-    br
+        |&nbsp;driven application created with&nbsp;
+        a(href='http://getbootstrap.com/', target='_blank') Bootstrap
+    hr
     .form-group.text-center
       button.btn.btn-primary.btn-md(data-toggle='modal', data-target='#addContactModal')
         span.glyphicon.glyphicon-plus(aria-hidden="true")
@@ -35,7 +37,7 @@
       .col-sm-12
         .alert(class="alert-{{notification.class}}" ng-bind="notification.message")
         #contacts-wrapper
-          table.table.text-left(ng-show="contacts.length", class="ng-hide")
+          table.table-striped.table.text-left(ng-show="contacts.length", class="ng-hide")
             thead
               tr(style="font-weight: bold")
                 td Contact Name
