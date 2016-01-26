@@ -1,4 +1,22 @@
 .container(style='margin-top: 30px', ng-controller="MainCtrl")
+
+  #addContactModal.modal(tabindex='-1', role='dialog')
+    .modal-dialog(role='document')
+      .modal-content
+        .modal-header
+          button.close(type='button', data-dismiss='modal', aria-label='Close')
+            span(aria-hidden='true') &times;
+          h4.modal-title Add New Contact
+        .modal-body
+          label Name:
+          input.form-control.input-md(type="text", ng-model="name", placeholder="Input contact name here..")
+          br
+          label Number:
+          input.form-control.input-md(type="text", ng-model="number", placeholder="Input contact number here..")
+        .modal-footer
+          button.btn.btn-default(type='button', data-dismiss='modal') Close
+          button.btn.btn-primary(type='button') Save changes
+
   .jumbotron
     .text-center
       h1(align='center') Phonebook App - AngularJS
@@ -9,7 +27,7 @@
         a(href='http://getbootstrap.com/', target='_blank')&nbsp;Bootstrap
     br
     .form-group.text-center
-      button.btn.btn-primary.btn-md(ng-click="addContact()")
+      button.btn.btn-primary.btn-md(data-toggle='modal', data-target='#addContactModal')
         span.glyphicon.glyphicon-plus(aria-hidden="true")
         |&nbsp;Add New Contact
 
