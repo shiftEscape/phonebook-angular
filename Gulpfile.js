@@ -14,7 +14,9 @@ var winston        = require('winston');
 var expressWinston = require('express-winston');
 var argv           = require('yargs').argv;
 
-const CSS_DIR         = './assets/css',
+const
+  PORT                = 8000,
+  CSS_DIR             = './assets/css',
   JS_SRC_DIR          = './assets/js',
   JS_DEST_DIR         = './dist/js',
   HTML_DIR            = './views',
@@ -24,26 +26,26 @@ const CSS_DIR         = './assets/css',
 var isProd = argv.env === 'production';
 
 /* Task for converting coffee files to JS */
-gulp.task('coffee', function() {
+gulp.task('build-coffee', function() {
   gulp.src(JS_SRC_DIR + '/*.coffee')
     .pipe(coffee({bare: true}))
     .pipe(gulpif(isProd, uglify()))
     .pipe(concat(gulpif(isProd, JS_ALL_MIN_FILENAME, JS_ALL_FILENAME)))
-    .pipe(gulp.dest( JS_DEST_DIR ));
+    .pipe(gulp.dest( JS_DEST_DIR ))
+    .pipe(livereload());
 });
 
 /* Task for converting jade files to HTML */
-gulp.task('jadeFiles', function() {
+gulp.task('build-jade', function() {
   gulp.src(HTML_DIR + '/*.jade')
-    .pipe(jade({
-      locals: {}
-    }))
+    .pipe(jade())
     .pipe(replace('js/phoneBookController.js', '/dist/js/' + gulpif(isProd, JS_ALL_MIN_FILENAME, JS_ALL_FILENAME)))
-    .pipe(gulp.dest( HTML_DIR ));
+    .pipe(gulp.dest( HTML_DIR ))
+    .pipe(livereload());
 });
 
 /* Task to run server at port 8000 */
-gulp.task('default', ['coffee', 'jadeFiles'], function() {
+gulp.task('default', ['build-coffee', 'build-jade'], function() {
 
   var app = express();
   app.use('/js', express.static(__dirname + '/assets/js'));
@@ -52,16 +54,22 @@ gulp.task('default', ['coffee', 'jadeFiles'], function() {
   app.use('/views', express.static(__dirname + '/views'));
   app.use('/bower_components', express.static(__dirname + '/bower_components'));
 
+  /* Log http requests to console */
   app.use(expressWinston.logger({
     transports: [
       new winston.transports.Console({ colorize: true })
     ]
   }));
 
+  /* Fetch all routes and render index.html file */
   app.get("*", function(req, res) {
     res.sendfile('views/index.html', { root: __dirname });
-  }).listen(8000, function() {
-    console.log("*** App listening to port 8000 ***");
+  }).listen(PORT, function() {
+    console.log("*** App listening to port "+PORT+" ***");
   });
+
+  livereload({ start: true });
+  gulp.watch('./assets/js/*.coffee', ['build-coffee']);
+  gulp.watch('./views/*.jade', ['build-jade']);
 
 });
