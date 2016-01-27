@@ -1,4 +1,4 @@
-'use strict';
+//'use strict';
 
 /* Declare node dependencies */
 var express        = require('express');
