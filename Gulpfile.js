@@ -10,6 +10,7 @@ var gulpif         = require('gulp-if');
 var gulpifElse     = require('gulp-if-else');
 var livereload     = require('gulp-livereload');
 var uglify         = require('gulp-uglify');
+var minifyCss      = require('gulp-minify-css');
 var express        = require('express');
 var winston        = require('winston');
 var expressWinston = require('express-winston');
@@ -42,8 +43,9 @@ gulp.task('build-coffee', function() {
 /* Task for converting stylus files to CSS */
 gulp.task('build-stylus', function() {
   gulp.src(CSS_SRC_DIR + '/*.styl')
-    .pipe(stylus(gulpif(isProd, {compress: true}, {compress: false})))
+    .pipe(stylus())
     .pipe(concat(gulpif(isProd, CSS_ALL_MIN_FILENAME, CSS_ALL_FILENAME)))
+    .pipe(gulpif(isProd, minifyCss()))
     .pipe(gulp.dest( CSS_DEST_DIR ))
     .pipe(livereload());
 });
