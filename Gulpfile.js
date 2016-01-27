@@ -28,7 +28,8 @@ const
   JS_ALL_MIN_FILENAME  = 'scripts.min.js',
   HTML_DIR             = './views';
 
-var isProd = argv.env === 'production';
+var isProd = argv.env === 'production',
+  customPort = (argv.port ? argv.port : PORT);
 
 /* Task for converting coffee files to JS */
 gulp.task('build-coffee', function() {
@@ -80,8 +81,8 @@ gulp.task('default', ['build-coffee', 'build-stylus', 'build-jade'], function() 
   /* Fetch all routes and render index.html file */
   app.get("*", function(req, res) {
     res.sendfile('views/index.html', { root: __dirname });
-  }).listen(PORT, function() {
-    console.log("*** App listening to port "+PORT+" ***");
+  }).listen(customPort, function() {
+    console.log("*** App listening to port "+customPort+" ***");
   });
 
   livereload({ start: true });
