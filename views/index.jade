@@ -3,12 +3,13 @@ html(ng-app="phoneBook")
   head
     meta(charset="UTF-8")
     title
-      |PhoneBook App - SPA
+      |PhoneBook - AngularJS
     link(rel="stylesheet", href="bower_components/bootstrap/dist/css/bootstrap.min.css")
+    link(rel="stylesheet", href="!{CSS_FILE_HERE}")
   body
     div(ui-view)
     script(type="text/javascript", src="bower_components/angular/angular.min.js")
     script(type="text/javascript", src="bower_components/angular-ui-router/release/angular-ui-router.min.js")
     script(type="text/javascript", src="bower_components/jquery/dist/jquery.min.js")
     script(type="text/javascript", src="bower_components/bootstrap/dist/js/bootstrap.min.js")
-    script(type="text/javascript", src="js/phoneBookController.js")
+    script(type="text/javascript", src="!{JS_FILE_HERE}")
