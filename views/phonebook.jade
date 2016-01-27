@@ -1,4 +1,4 @@
-.container(style='margin-top: 30px', ng-controller="MainCtrl")
+.container.spacing-top(ng-controller="MainCtrl")
 
   #addContactModal.modal(tabindex='-1', role='dialog')
     .modal-dialog(role='document')
@@ -57,7 +57,7 @@
         #contacts-wrapper
           table.table-striped.table.text-left(ng-show="contacts.length", class="ng-hide")
             thead
-              tr(style="font-weight: bold")
+              tr.strong-text
                 td Contact Name
                 td Contact Number
                 td.text-center Actions
