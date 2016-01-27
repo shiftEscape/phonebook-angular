@@ -1,21 +1,23 @@
 'use strict';
 
+/* Declare node dependencies */
+var express        = require('express');
+var expressWinston = require('express-winston');
 var gulp           = require('gulp');
-var jade           = require('gulp-jade');
 var coffee         = require('gulp-coffee');
-var stylus         = require('gulp-stylus');
 var concat         = require('gulp-concat');
-var replace        = require('gulp-replace');
 var gulpif         = require('gulp-if');
 var gulpifElse     = require('gulp-if-else');
+var jade           = require('gulp-jade');
 var livereload     = require('gulp-livereload');
-var uglify         = require('gulp-uglify');
 var minifyCss      = require('gulp-minify-css');
-var express        = require('express');
+var replace        = require('gulp-replace');
+var stylus         = require('gulp-stylus');
+var uglify         = require('gulp-uglify');
 var winston        = require('winston');
-var expressWinston = require('express-winston');
 var argv           = require('yargs').argv;
 
+/* Declare constants of the app */
 const
   PORT                 = 8000,
   CSS_SRC_DIR          = './assets/css',
@@ -28,7 +30,8 @@ const
   JS_ALL_MIN_FILENAME  = 'scripts.min.js',
   HTML_DIR             = './views';
 
-var isProd = argv.env === 'production',
+/* Handle yargs arguments passed | --ENV and --PORT */
+var isProd = (argv.env === 'production'),
   customPort = (argv.port ? argv.port : PORT);
 
 /* Task for converting coffee files to JS */
@@ -85,6 +88,7 @@ gulp.task('default', ['build-coffee', 'build-stylus', 'build-jade'], function() 
     console.log("*** App listening to port "+customPort+" ***");
   });
 
+  /* File watchers; hook livereload onChange */
   livereload({ start: true });
   gulp.watch('./assets/js/*.coffee', ['build-coffee']);
   gulp.watch('./views/*.jade', ['build-jade']);
